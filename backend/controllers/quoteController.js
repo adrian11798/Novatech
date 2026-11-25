@@ -14,7 +14,7 @@ async function create(req, res) {
   if (!customer.name || !customer.email) return sendError(res, 400, 'Se requiere nombre y un correo válido.');
   if (!items.length) return sendError(res, 400, 'Agrega al menos un producto o estimación.');
   const result = await model.createQuote({ customer, items, notes: clean(req.body.notes, 3000) });
-  res.status(201).json({ ok: true, ...result, message: 'Cotización guardada en MySQL.' });
+  res.status(201).json({ ok: true, ...result, message: 'Cotización guardada correctamente.' });
 }
 
 async function list(req, res) { res.json(await model.findAll()); }

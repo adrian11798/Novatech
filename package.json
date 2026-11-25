@@ -1,8 +1,8 @@
 {
-  "name": "novatech-completo-mysql",
+  "name": "novatech-render-neon",
   "version": "3.0.0",
   "private": true,
-  "description": "NovaTech - Landing Page y backend completo para ambiente de pruebas con MySQL",
+  "description": "NovaTech - Landing Page y backend para Render + Neon PostgreSQL",
   "main": "backend/server.js",
   "scripts": {
     "start": "node backend/server.js",
@@ -15,7 +15,7 @@
     "express": "^5.1.0",
     "express-rate-limit": "^8.2.1",
     "helmet": "^8.1.0",
-    "mysql2": "^3.14.4",
-    "nodemailer": "^7.0.6"
+    "nodemailer": "^7.0.6",
+    "pg": "^8.16.3"
   }
 }

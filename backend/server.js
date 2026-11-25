@@ -27,10 +27,10 @@ app.use(rateLimit({ windowMs: env.rateLimitWindowMs, limit: env.rateLimitMax, st
 app.get('/api/health', asyncHandler(async (req, res) => {
   let database = 'disconnected';
   try { await testConnection(); database = 'connected'; } catch (e) { database = `error: ${e.code || e.message}`; }
-  res.json({ ok: database === 'connected', storage: 'MySQL', database, environment: env.nodeEnv, timestamp: new Date().toISOString() });
+  res.json({ ok: database === 'connected', storage: 'PostgreSQL', database, environment: env.nodeEnv, timestamp: new Date().toISOString() });
 }));
 
-app.get('/api', (req, res) => res.json({ ok: true, name: 'NovaTech API', version: '3.0.0', storage: 'MySQL' }));
+app.get('/api', (req, res) => res.json({ ok: true, name: 'NovaTech API', version: '3.0.0', storage: 'PostgreSQL' }));
 app.use('/api/products', productRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/calculator', calculatorRoutes);
@@ -46,9 +46,9 @@ app.use(errorHandler);
 async function start() {
   try {
     await testConnection();
-    console.log(`MySQL conectado: ${env.db.host}:${env.db.port}/${env.db.name}`);
+    console.log(`PostgreSQL conectado: ${env.db.host}:${env.db.port}/${env.db.name}`);
   } catch (error) {
-    console.error('No se pudo conectar a MySQL. Revisa .env y que el servicio de MySQL esté activo.');
+    console.error('No se pudo conectar a PostgreSQL. Revisa DATABASE_URL en las variables de entorno.');
     console.error(error.message);
     process.exitCode = 1;
     return;

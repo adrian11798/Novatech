@@ -11,7 +11,7 @@ function num(name, fallback) {
 module.exports = {
   nodeEnv: process.env.NODE_ENV || 'development',
   port: num('PORT', 3000),
-  host: process.env.HOST || '127.0.0.1',
+  host: process.env.HOST || '0.0.0.0',
   db: {
     host: process.env.DB_HOST || '127.0.0.1',
     port: num('DB_PORT', 3306),
