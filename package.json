@@ -1,0 +1,21 @@
+{
+  "name": "novatech-completo-mysql",
+  "version": "3.0.0",
+  "private": true,
+  "description": "NovaTech - Landing Page y backend completo para ambiente de pruebas con MySQL",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node backend/server.js",
+    "check": "node --check backend/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.2.1",
+    "helmet": "^8.1.0",
+    "mysql2": "^3.14.4",
+    "nodemailer": "^7.0.6"
+  }
+}

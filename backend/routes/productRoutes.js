@@ -1,0 +1,11 @@
+const express = require('express');
+const controller = require('../controllers/productController');
+const { requireAdminKey } = require('../middleware/adminMiddleware');
+const { asyncHandler } = require('../utils/http');
+const router = express.Router();
+router.get('/', asyncHandler(controller.list));
+router.get('/:id', asyncHandler(controller.get));
+router.post('/', requireAdminKey, asyncHandler(controller.create));
+router.put('/:id', requireAdminKey, asyncHandler(controller.update));
+router.delete('/:id', requireAdminKey, asyncHandler(controller.remove));
+module.exports = router;

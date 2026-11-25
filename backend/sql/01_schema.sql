@@ -1,0 +1,97 @@
+CREATE DATABASE IF NOT EXISTS novatech_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE novatech_test;
+
+CREATE TABLE IF NOT EXISTS products (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(150) NOT NULL,
+  description TEXT NOT NULL,
+  category VARCHAR(80) NOT NULL,
+  price DECIMAL(12,2) NOT NULL DEFAULT 0,
+  image VARCHAR(500) NULL,
+  specifications JSON NULL,
+  active TINYINT(1) NOT NULL DEFAULT 1,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_products_category (category),
+  INDEX idx_products_active (active)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS contacts (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(150) NOT NULL,
+  phone VARCHAR(30) NULL,
+  company VARCHAR(150) NULL,
+  subject VARCHAR(150) NULL,
+  message TEXT NOT NULL,
+  status VARCHAR(30) NOT NULL DEFAULT 'new',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_contacts_email (email),
+  INDEX idx_contacts_status (status)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS calculator_requests (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  users INT UNSIGNED NOT NULL,
+  operation VARCHAR(50) NOT NULL,
+  redundancy VARCHAR(50) NOT NULL,
+  estimated_total DECIMAL(12,2) NOT NULL,
+  result_json JSON NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_calculator_created (created_at)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS quotes (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  quote_number VARCHAR(40) NOT NULL UNIQUE,
+  customer_name VARCHAR(100) NOT NULL,
+  customer_email VARCHAR(150) NOT NULL,
+  customer_phone VARCHAR(30) NULL,
+  company VARCHAR(150) NULL,
+  notes TEXT NULL,
+  total DECIMAL(12,2) NOT NULL DEFAULT 0,
+  status VARCHAR(30) NOT NULL DEFAULT 'pending',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_quotes_email (customer_email),
+  INDEX idx_quotes_status (status)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS quote_items (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  quote_id BIGINT UNSIGNED NOT NULL,
+  product_id INT UNSIGNED NULL,
+  item_type VARCHAR(30) NOT NULL DEFAULT 'product',
+  item_name VARCHAR(180) NOT NULL,
+  quantity INT UNSIGNED NOT NULL DEFAULT 1,
+  unit_price DECIMAL(12,2) NOT NULL DEFAULT 0,
+  subtotal DECIMAL(12,2) NOT NULL DEFAULT 0,
+  details_json JSON NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_quote_items_quote FOREIGN KEY (quote_id) REFERENCES quotes(id) ON DELETE CASCADE,
+  CONSTRAINT fk_quote_items_product FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE SET NULL,
+  INDEX idx_quote_items_quote (quote_id)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS users (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(150) NOT NULL UNIQUE,
+  password_hash VARCHAR(128) NOT NULL,
+  password_salt VARCHAR(64) NOT NULL,
+  role VARCHAR(30) NOT NULL DEFAULT 'user',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS articles (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(200) NOT NULL,
+  category VARCHAR(80) NOT NULL,
+  summary TEXT NOT NULL,
+  content LONGTEXT NOT NULL,
+  published_at DATE NOT NULL,
+  active TINYINT(1) NOT NULL DEFAULT 1,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_articles_date (published_at),
+  INDEX idx_articles_active (active)
+) ENGINE=InnoDB;
